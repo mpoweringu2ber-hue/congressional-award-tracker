@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Award Journey ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue-1:#E6F1FB;--blue-2:#B5D4F4;--blue-3:#85B7EB;--blue-4:#378ADD;--blue-5:#185FA5;--blue-6:#0C447C;--blue-7:#042C53;
+  --teal-1:#E1F5EE;--teal-4:#1D9E75;--teal-6:#0F6E56;
+  --purple-1:#EEEDFE;--purple-4:#7F77DD;--purple-6:#534AB7;
+  --coral-1:#FAECE7;--coral-4:#D85A30;
+  --bg:#f0f7ff;
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;color:var(--blue-7);}
+.shell{display:flex;min-height:100vh;}
+.sidebar{width:220px;background:var(--blue-7);flex-shrink:0;display:flex;flex-direction:column;padding:24px 0;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;}
+.main{margin-left:220px;flex:1;padding:28px 32px;}
+.sidebar-logo{padding:0 20px 24px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px;}
+.sidebar-logo h1{font-family:'Quicksand',sans-serif;font-weight:700;font-size:17px;color:white;line-height:1.3;}
+.sidebar-logo p{font-size:11px;color:var(--blue-3);margin-top:3px;}
+.stars-logo{font-size:20px;margin-bottom:8px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,0.65);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;border-left:3px solid transparent;text-decoration:none;}
+.nav-item:hover{color:white;background:rgba(255,255,255,0.07);}
+.nav-item.active{color:white;background:rgba(55,138,221,0.25);border-left-color:var(--blue-3);}
+.nav-icon{font-size:17px;width:20px;text-align:center;}
+.nav-section{font-size:10px;font-weight:800;color:rgba(255,255,255,0.3);padding:16px 20px 6px;letter-spacing:1px;text-transform:uppercase;}
+.sidebar-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,0.1);}
+.level-pill{background:rgba(55,138,221,0.3);color:var(--blue-2);font-size:11px;font-weight:800;padding:6px 12px;border-radius:20px;display:inline-block;}
+.section{display:none;}
+.section.active{display:block;}
+.page-title{font-family:'Quicksand',sans-serif;font-weight:700;font-size:24px;color:var(--blue-7);margin-bottom:4px;}
+.page-sub{font-size:13px;color:var(--blue-5);margin-bottom:24px;}
+.card{background:white;border-radius:16px;border:1.5px solid var(--blue-2);padding:20px;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:800;color:var(--blue-7);margin-bottom:14px;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-box{background:white;border-radius:14px;border:1.5px solid var(--blue-2);padding:16px 14px;text-align:center;}
+.stat-num{font-size:26px;font-weight:900;color:var(--blue-5);line-height:1;}
+.stat-label{font-size:11px;color:var(--blue-5);font-weight:700;margin-top:4px;}
+.stat-sub{font-size:10px;color:var(--blue-3);margin-top:2px;}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.area-card{background:white;border-radius:16px;border:1.5px solid var(--blue-2);padding:18px;position:relative;}
+.area-emoji{font-size:26px;margin-bottom:8px;}
+.area-name{font-size:13px;font-weight:800;color:var(--blue-7);margin-bottom:2px;}
+.area-req{font-size:11px;color:var(--blue-4);margin-bottom:10px;font-weight:600;}
+.progress-bar{height:9px;background:var(--blue-1);border-radius:6px;overflow:hidden;margin-bottom:6px;}
+.progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--blue-4),#5DCAA5);transition:width 0.6s ease;}
+.progress-text{font-size:11px;color:var(--blue-5);font-weight:700;}
+.pct-badge{position:absolute;top:14px;right:14px;background:var(--blue-1);color:var(--blue-5);font-size:10px;font-weight:800;padding:3px 8px;border-radius:10px;}
+.week-row{display:flex;gap:8px;margin-bottom:4px;}
+.day-item{flex:1;text-align:center;}
+.day-name{font-size:10px;color:var(--blue-5);font-weight:700;margin-bottom:5px;}
+.day-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--blue-2);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--blue-3);margin:0 auto;transition:all 0.2s;}
+.day-circle.done{background:var(--blue-4);border-color:var(--blue-4);color:white;}
+.day-circle.today{border-color:var(--blue-4);color:var(--blue-4);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-label{font-size:12px;font-weight:800;color:var(--blue-6);}
+select,input[type=number],input[type=text],textarea{padding:9px 12px;border:1.5px solid var(--blue-2);border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--blue-7);background:var(--blue-1);outline:none;transition:border 0.15s;width:100%;}
+select:focus,input:focus,textarea:focus{border-color:var(--blue-4);background:white;}
+textarea{resize:vertical;min-height:60px;}
+.btn{padding:10px 22px;border-radius:12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all 0.18s;border:none;}
+.btn-primary{background:var(--blue-5);color:white;}
+.btn-primary:hover{background:var(--blue-6);}
+.btn-primary:active{transform:scale(0.97);}
+.btn-sm{background:var(--blue-1);color:var(--blue-5);border:1.5px solid var(--blue-2);padding:6px 14px;font-size:12px;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;}
+.btn-sm:hover{background:var(--blue-2);}
+.btn-danger{background:#FCEBEB;color:#A32D2D;border:1.5px solid #F7C1C1;padding:6px 12px;font-size:12px;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;}
+.btn-danger:hover{background:#F7C1C1;}
+.log-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--blue-1);border-radius:10px;margin-bottom:7px;}
+.li-area-chip{font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;margin-bottom:2px;display:inline-block;}
+.li-fitness{background:#dbeeff;color:var(--blue-6);}
+.li-personal{background:var(--purple-1);color:var(--purple-6);}
+.li-service{background:var(--teal-1);color:var(--teal-6);}
+.li-act{font-size:13px;font-weight:700;color:var(--blue-7);}
+.li-date{font-size:11px;color:#888;}
+.li-hrs{background:var(--blue-5);color:white;font-size:12px;font-weight:800;padding:3px 10px;border-radius:8px;}
+.guide-card{background:white;border-radius:16px;border:1.5px solid var(--blue-2);padding:20px;margin-bottom:14px;}
+.guide-title{font-size:15px;font-weight:800;color:var(--blue-7);margin-bottom:6px;}
+.guide-desc{font-size:12px;color:var(--blue-5);margin-bottom:14px;line-height:1.6;}
+.req-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--blue-1);}
+.req-row:last-of-type{border-bottom:none;}
+.req-label{font-size:12px;color:#555;font-weight:600;}
+.req-val{font-size:12px;font-weight:800;color:var(--blue-6);}
+.rule-list{margin-top:12px;border-top:1px solid var(--blue-1);padding-top:12px;}
+.rule-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;color:#444;line-height:1.5;}
+.rule-icon{color:var(--blue-4);flex-shrink:0;margin-top:2px;}
+.goal-input-group{background:var(--blue-1);border-radius:12px;padding:14px;margin-bottom:10px;}
+.goal-input-group label{font-size:12px;font-weight:800;color:var(--blue-6);display:block;margin-bottom:7px;}
+.month-dot{width:38px;height:38px;border-radius:50%;border:2px solid var(--blue-2);background:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--blue-4);cursor:pointer;transition:all 0.15s;}
+.month-dot.active{background:var(--blue-4);border-color:var(--blue-4);color:white;}
+.month-dot:hover{border-color:var(--blue-4);}
+.month-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.ach-item{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--blue-1),var(--teal-1));border-radius:14px;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--blue-2);}
+.ach-trophy{font-size:28px;}
+.ach-title{font-size:13px;font-weight:800;color:var(--blue-7);}
+.ach-desc{font-size:11px;color:var(--blue-5);}
+.ach-locked{opacity:0.4;filter:grayscale(1);}
+.wg-bar{height:12px;background:var(--blue-1);border-radius:8px;overflow:hidden;margin:8px 0;}
+.wg-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue-4),#5DCAA5);transition:width 0.5s;}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--blue-6);color:white;padding:12px 20px;border-radius:14px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(12,68,124,0.3);transform:translateY(80px);opacity:0;transition:all 0.3s;z-index:9999;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* MONTHLY TRACKER STYLES */
+.month-selector{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.month-tab{padding:7px 16px;border-radius:20px;border:1.5px solid var(--blue-2);background:white;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--blue-5);cursor:pointer;transition:all 0.15s;}
+.month-tab.active{background:var(--blue-5);color:white;border-color:var(--blue-5);}
+.month-tab:hover{border-color:var(--blue-4);}
+.month-view{display:none;}
+.month-view.active{display:block;}
+.month-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.month-title{font-size:18px;font-weight:800;color:var(--blue-7);}
+.month-total-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.area-chip-total{padding:5px 12px;border-radius:10px;font-size:12px;font-weight:800;}
+.chip-fitness{background:#dbeeff;color:var(--blue-6);}
+.chip-personal{background:var(--purple-1);color:var(--purple-6);}
+.chip-service{background:var(--teal-1);color:var(--teal-6);}
+.chip-expedition{background:var(--coral-1);color:var(--coral-4);}
+.week-block{background:white;border-radius:14px;border:1.5px solid var(--blue-2);padding:16px;margin-bottom:12px;}
+.week-block-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.week-label{font-size:13px;font-weight:800;color:var(--blue-7);}
+.week-total-badge{background:var(--blue-5);color:white;font-size:11px;font-weight:800;padding:3px 10px;border-radius:8px;}
+.week-area-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+.week-area-input{display:flex;flex-direction:column;gap:4px;}
+.week-area-label{font-size:10px;font-weight:800;color:var(--blue-5);}
+.week-area-input input{padding:7px 10px;border:1.5px solid var(--blue-2);border-radius:8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--blue-7);background:var(--blue-1);outline:none;text-align:center;}
+.week-area-input input:focus{border-color:var(--blue-4);background:white;}
+.week-notes-row{margin-top:8px;}
+.week-notes-row textarea{width:100%;padding:8px 10px;border:1.5px solid var(--blue-2);border-radius:8px;font-family:'Nunito',sans-serif;font-size:12px;color:var(--blue-7);background:var(--blue-1);outline:none;resize:none;min-height:50px;}
+.week-notes-row textarea:focus{border-color:var(--blue-4);background:white;}
+.month-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.month-summary-box{border-radius:12px;padding:12px;text-align:center;}
+.msb-num{font-size:22px;font-weight:900;line-height:1;}
+.msb-label{font-size:10px;font-weight:800;margin-top:3px;}
+.msb-fitness{background:#dbeeff;color:var(--blue-6);}
+.msb-personal{background:var(--purple-1);color:var(--purple-6);}
+.msb-service{background:var(--teal-1);color:var(--teal-6);}
+.msb-total{background:var(--blue-1);color:var(--blue-7);}
+.save-month-btn{width:100%;margin-top:4px;}
+.year-nav{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.year-nav button{background:var(--blue-1);border:1.5px solid var(--blue-2);border-radius:8px;padding:6px 14px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--blue-5);cursor:pointer;}
+.year-nav button:hover{background:var(--blue-2);}
+.year-label{font-size:16px;font-weight:800;color:var(--blue-7);}
+
+@media(max-width:700px){
+  .sidebar{width:60px;}
+  .sidebar-logo,.nav-label,.nav-section,.sidebar-bottom{display:none;}
+  .main{margin-left:60px;padding:16px;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
+  .area-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .nav-item{padding:12px;justify-content:center;}
+  .nav-icon{font-size:20px;width:auto;}
+  .week-area-row{grid-template-columns:1fr 1fr;}
+  .month-summary-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="stars-logo">⭐️✨</div>
+    <h1>My Award<br>Journey</h1>
+    <p>Congressional Award</p>
+  </div>
+  <span class="nav-section">Navigate</span>
+  <a class="nav-item active" onclick="showSection('overview',this)" href="#">
+    <span class="nav-icon">🏠</span><span class="nav-label">Overview</span>
+  </a>
+  <a class="nav-item" onclick="showSection('log',this)" href="#">
+    <span class="nav-icon">➕</span><span class="nav-label">Log Hours</span>
+  </a>
+  <a class="nav-item" onclick="showSection('monthly',this)" href="#">
+    <span class="nav-icon">📅</span><span class="nav-label">Monthly Tracker</span>
+  </a>
+  <a class="nav-item" onclick="showSection('history',this)" href="#">
+    <span class="nav-icon">📋</span><span class="nav-label">History</span>
+  </a>
+  <a class="nav-item" onclick="showSection('goals',this)" href="#">
+    <span class="nav-icon">🎯</span><span class="nav-label">My Goals</span>
+  </a>
+  <a class="nav-item" onclick="showSection('guidelines',this)" href="#">
+    <span class="nav-icon">📖</span><span class="nav-label">Guidelines</span>
+  </a>
+  <a class="nav-item" onclick="showSection('achievements',this)" href="#">
+    <span class="nav-icon">🏅</span><span class="nav-label">Achievements</span>
+  </a>
+  <div class="sidebar-bottom">
+    <div class="level-pill">🥈 Silver Goal</div>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- OVERVIEW -->
+<div id="sec-overview" class="section active">
+  <div class="page-title">Good day! ✨</div>
+  <div class="page-sub">Your Congressional Award progress at a glance.</div>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-num" id="ov-total-hrs">0</div><div class="stat-label">Total Hours</div><div class="stat-sub">All areas</div></div>
+    <div class="stat-box"><div class="stat-num" id="ov-week-hrs">0</div><div class="stat-label">This Week</div><div class="stat-sub">Last 7 days</div></div>
+    <div class="stat-box"><div class="stat-num" id="ov-months">0</div><div class="stat-label">Active Months</div><div class="stat-sub">Max across areas</div></div>
+    <div class="stat-box"><div class="stat-num" id="ov-logs">0</div><div class="stat-label">Log Entries</div><div class="stat-sub">Total logged</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 This Week's Activity</div>
+    <div class="week-row" id="week-row"></div>
+    <div style="margin-top:12px;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--blue-5);margin-bottom:4px;">
+        <span>Weekly Goal Progress</span><span id="wg-label">0 / 15 hrs</span>
+      </div>
+      <div class="wg-bar"><div class="wg-fill" id="wg-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="area-grid" id="area-grid"></div>
+  <div class="card">
+    <div class="card-title">📊 Recent Activity</div>
+    <div id="recent-logs"><p style="font-size:12px;color:#aaa;text-align:center;padding:10px;">No activity yet. Head to Log Hours to get started!</p></div>
+  </div>
+</div>
+
+<!-- LOG HOURS -->
+<div id="sec-log" class="section">
+  <div class="page-title">Log Hours ➕</div>
+  <div class="page-sub">Record your activity. Max 8 hours per day per program rules.</div>
+  <div class="card">
+    <div class="card-title">📝 Add New Entry</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Program Area</label>
+        <select id="log-area" onchange="updateActivities()">
+          <option value="fitness">🏃 Physical Fitness</option>
+          <option value="personal">📚 Personal Development</option>
+          <option value="service">🤝 Voluntary Public Service</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Activity</label>
+        <select id="log-activity"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Hours Logged</label>
+        <input type="number" id="log-hours" min="0.5" max="8" step="0.5" value="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="text" id="log-date" placeholder="e.g. Jun 3">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label class="form-label">Notes (optional)</label>
+      <textarea id="log-notes" placeholder="Any details about today's session..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="logHours()" style="width:100%;">✨ Log Activity</button>
+  </div>
+  <div class="card">
+    <div class="card-title">💡 Quick Reminders</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div style="background:var(--blue-1);border-radius:10px;padding:10px;font-size:11px;color:var(--blue-6);font-weight:600;">⏱ Max 8 hrs/day</div>
+      <div style="background:var(--blue-1);border-radius:10px;padding:10px;font-size:11px;color:var(--blue-6);font-weight:600;">📅 1+ hr/month for that month to count</div>
+      <div style="background:var(--teal-1);border-radius:10px;padding:10px;font-size:11px;color:var(--teal-6);font-weight:600;">🚫 No class credit activities</div>
+      <div style="background:var(--purple-1);border-radius:10px;padding:10px;font-size:11px;color:var(--purple-6);font-weight:600;">🚫 No double-dipping between areas</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTHLY TRACKER -->
+<div id="sec-monthly" class="section">
+  <div class="page-title">Monthly Tracker 📅</div>
+  <div class="page-sub">Manually track your hours each week, broken down by program area.</div>
+
+  <div class="year-nav">
+    <button onclick="changeYear(-1)">◀</button>
+    <span class="year-label" id="year-label">2025</span>
+    <button onclick="changeYear(1)">▶</button>
+  </div>
+
+  <div class="month-selector" id="month-tabs"></div>
+  <div id="month-views"></div>
+</div>
+
+<!-- HISTORY -->
+<div id="sec-history" class="section">
+  <div class="page-title">Activity History 📋</div>
+  <div class="page-sub">All your logged hours in one place.</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div class="card-title" style="margin:0;">All Entries</div>
+      <div style="display:flex;gap:8px;">
+        <select id="filter-area" onchange="renderHistory()" style="font-size:12px;padding:6px 10px;">
+          <option value="all">All Areas</option>
+          <option value="fitness">Physical Fitness</option>
+          <option value="personal">Personal Dev.</option>
+          <option value="service">Public Service</option>
+        </select>
+        <button class="btn-danger" onclick="clearAllLogs()">Clear All</button>
+      </div>
+    </div>
+    <div id="history-list"><p style="font-size:12px;color:#aaa;text-align:center;padding:20px;">No logs yet!</p></div>
+  </div>
+</div>
+
+<!-- MY GOALS -->
+<div id="sec-goals" class="section">
+  <div class="page-title">My Goals 🎯</div>
+  <div class="page-sub">Write your goal statements and track your weekly target.</div>
+  <div class="card">
+    <div class="card-title">📅 Weekly Hour Goal</div>
+    <div class="form-group" style="margin-bottom:10px;">
+      <label class="form-label">Target hours per week</label>
+      <input type="number" id="weekly-goal-inp" min="1" max="60" value="15" style="max-width:120px;" onchange="saveWeeklyGoal()">
+    </div>
+    <p style="font-size:12px;color:var(--blue-5);font-weight:700;">This week: <span id="wg-current-text">0 / 15 hrs</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title">✏️ Goal Statements</div>
+    <div class="goal-input-group">
+      <label>🏃 Physical Fitness Goal</label>
+      <textarea id="g-fitness" rows="2" placeholder="e.g. Improve my overall physical fitness by building upper body strength and cardiovascular endurance through regular dance classes, walking/running, and targeted upper body exercises..."></textarea>
+    </div>
+    <div class="goal-input-group">
+      <label>📚 Personal Development Goal 1 — Reading & Vocab</label>
+      <textarea id="g-pd1" rows="2" placeholder="e.g. Improve my knowledge and vocabulary by reading a variety of fiction and business/self-improvement books..."></textarea>
+    </div>
+    <div class="goal-input-group">
+      <label>📚 Personal Development Goal 2 — Wellness & Art</label>
+      <textarea id="g-pd2" rows="2" placeholder="e.g. Develop mental clarity and creative skills through daily meditation and regular painting practice..."></textarea>
+    </div>
+    <div class="goal-input-group">
+      <label>🤝 Voluntary Public Service Goal</label>
+      <textarea id="g-service" rows="2" placeholder="e.g. Serve my community by..."></textarea>
+    </div>
+    <div class="goal-input-group">
+      <label>🧭 Expedition / Exploration Plan</label>
+      <textarea id="g-expedition" rows="2" placeholder="e.g. Plan a 3-day, 2-night trip to explore..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="saveGoals()" style="margin-top:4px;">💾 Save Goals</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📅 Active Months Tracker</div>
+    <p style="font-size:12px;color:var(--blue-5);margin-bottom:14px;line-height:1.5;">Tap a month where you had at least 1 hour of activity. You need 12 active months per area for the Silver Medal. Months don't need to be consecutive!</p>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:800;color:var(--blue-6);margin-bottom:6px;">🏃 Physical Fitness</div>
+      <div class="month-grid" id="months-fitness"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:800;color:var(--purple-6);margin-bottom:6px;">📚 Personal Development</div>
+      <div class="month-grid" id="months-personal"></div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:800;color:var(--teal-6);margin-bottom:6px;">🤝 Public Service</div>
+      <div class="month-grid" id="months-service"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDELINES -->
+<div id="sec-guidelines" class="section">
+  <div class="page-title">Program Guidelines 📖</div>
+  <div class="page-sub">Official rules from the Congressional Award Program Book.</div>
+  <div class="guide-card">
+    <div class="guide-title">🏃 Physical Fitness</div>
+    <div class="guide-desc">Improving quality of life through participation in fitness activities.</div>
+    <div class="req-row"><span class="req-label">Silver Certificate</span><span class="req-val">30 hrs — no month requirement</span></div>
+    <div class="req-row"><span class="req-label">Silver Medal</span><span class="req-val">100 hrs — 12 months</span></div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Maximum 8 hours logged per day</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Activities must be outside your daily routine</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Gym class during school hours does NOT qualify</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Goals must be personally challenging and non-competitive</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Meal planning can only be 25% of total hours</span></div>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-title">📚 Personal Development</div>
+    <div class="guide-desc">Pursuing a new interest or advancing to another level in an ongoing interest.</div>
+    <div class="req-row"><span class="req-label">Silver Certificate</span><span class="req-val">30 hrs — no month requirement</span></div>
+    <div class="req-row"><span class="req-label">Silver Medal</span><span class="req-val">100 hrs — 12 months</span></div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Maximum 2 goals per record book</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>No activities that earn class credit</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Mental health activities like meditation are allowed</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Do NOT overlap activities with Physical Fitness</span></div>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-title">🤝 Voluntary Public Service</div>
+    <div class="guide-desc">Sharing time and talents for the benefit of others through community volunteer work.</div>
+    <div class="req-row"><span class="req-label">Silver Certificate</span><span class="req-val">60 hrs — no month requirement</span></div>
+    <div class="req-row"><span class="req-label">Silver Medal</span><span class="req-val">200 hrs — 12 months</span></div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Maximum 4 goals per record book</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Must benefit the greater community — no private businesses</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Indirect service can only be 25% of total hours</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>No compensation or class credit received</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Must be non-partisan</span></div>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-title">🧭 Expedition / Exploration</div>
+    <div class="guide-desc">Immersion in an unfamiliar environment or culture.</div>
+    <div class="req-row"><span class="req-label">Silver Certificate</span><span class="req-val">2 days</span></div>
+    <div class="req-row"><span class="req-label">Silver Medal</span><span class="req-val">3 days, 2 nights (consecutive)</span></div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Must complete 6–8 hours of immersive activities per day</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>You must plan and control the itinerary yourself</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Medal level trips must be consecutive days</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Virtual Expedition/Exploration option is available</span></div>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-title">📋 General Rules</div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">✅</span><span>At least 1 hour in a month for that month to count</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Active months do NOT need to be consecutive</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>No double-dipping — activities cannot overlap between areas</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Hours are cumulative between award levels</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>Record Books take 6–8 weeks to review after submission</span></div>
+      <div class="rule-item"><span class="rule-icon">✅</span><span>You need a Validator for each goal (cannot be a family member)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div id="sec-achievements" class="section">
+  <div class="page-title">Achievements 🏅</div>
+  <div class="page-sub">Milestones unlocked on your award journey.</div>
+  <div id="ach-list"></div>
+</div>
+
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const ACTIVITIES = {
+  fitness:['Dance class','Walking / Running','Upper body exercises','Badminton','General exercise','Other'],
+  personal:['Reading — fiction','Reading — business/self-help','Meditation','Painting / Art','Vocabulary study','Other'],
+  service:['Community volunteering','Library assistance','Food bank','Tutoring','Fundraising (indirect)','Youth program','Other']
+};
+const REQ = {fitness:{cert:30,medal:100,medalMonths:12},personal:{cert:30,medal:100,medalMonths:12},service:{cert:60,medal:200,medalMonths:12}};
+const AREA_INFO = {fitness:{name:'Physical Fitness',emoji:'🏃',chip:'li-fitness'},personal:{name:'Personal Dev.',emoji:'📚',chip:'li-personal'},service:{name:'Public Service',emoji:'🤝',chip:'li-service'}};
+const ALL_ACHIEVEMENTS = [
+  {id:'first',title:'First Step! 🌟',desc:'Logged your very first hour',condition:s=>s.logs.length>=1},
+  {id:'ten',title:'10 Hours Strong! 💪',desc:'Logged 10 total hours',condition:s=>totalHrs(s)>=10},
+  {id:'cert30',title:'Certificate Ready! 🎖️',desc:'Hit 30 hours in any one area',condition:s=>['fitness','personal','service'].some(a=>hrsByArea(s,a)>=30)},
+  {id:'50hrs',title:'Halfway Hero! 🚀',desc:'Logged 50 hours in any area',condition:s=>['fitness','personal','service'].some(a=>hrsByArea(s,a)>=50)},
+  {id:'3months',title:'3 Months Active! 📅',desc:'Active in 3+ months in one area',condition:s=>Object.values(s.months).some(m=>m.length>=3)},
+  {id:'monthly',title:'Monthly Master! 🗓️',desc:'Filled in a full month in the monthly tracker',condition:s=>Object.keys(s.monthly||{}).length>=1},
+  {id:'medal100',title:'Medal Milestone! 🥈',desc:'100 hours in any area',condition:s=>['fitness','personal','service'].some(a=>hrsByArea(s,a)>=100)},
+  {id:'allcert',title:'All Areas! ⭐️',desc:'Logged hours in all 3 trackable areas',condition:s=>['fitness','personal','service'].every(a=>hrsByArea(s,a)>0)},
+];
+
+let state = {logs:[],weeklyGoal:15,goals:{},months:{fitness:[],personal:[],service:[]},monthly:{},currentYear:new Date().getFullYear()};
+
+function loadState(){try{const s=localStorage.getItem('caw3_state');if(s)state={...state,...JSON.parse(s)};}catch(e){}}
+function saveState(){try{localStorage.setItem('caw3_state',JSON.stringify(state));}catch(e){}}
+function totalHrs(s){return(s||state).logs.reduce((t,l)=>t+l.hours,0);}
+function hrsByArea(s,area){return(s||state).logs.filter(l=>l.area===area).reduce((t,l)=>t+l.hours,0);}
+function weekHrs(){const c=Date.now()-7*24*60*60*1000;return state.logs.filter(l=>l.ts>=c).reduce((t,l)=>t+l.hours,0);}
+
+function showSection(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  if(id==='overview') renderOverview();
+  if(id==='history') renderHistory();
+  if(id==='goals') renderGoals();
+  if(id==='achievements') renderAchievements();
+  if(id==='monthly') renderMonthlyTracker();
+  return false;
+}
+
+function updateActivities(){
+  const area=document.getElementById('log-area').value;
+  const sel=document.getElementById('log-activity');
+  sel.innerHTML=ACTIVITIES[area].map(a=>`<option>${a}</option>`).join('');
+}
+
+function logHours(){
+  const area=document.getElementById('log-area').value;
+  const activity=document.getElementById('log-activity').value;
+  const hours=parseFloat(document.getElementById('log-hours').value);
+  const date=document.getElementById('log-date').value||new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const notes=document.getElementById('log-notes').value;
+  if(!hours||hours<=0||hours>8){showToast(hours>8?'⚠️ Max 8 hours per day!':'Please enter valid hours!');return;}
+  state.logs.unshift({area,activity,hours,date,notes,ts:Date.now()});
+  saveState();
+  showToast('✨ '+hours+' hours logged for '+AREA_INFO[area].name+'!');
+  document.getElementById('log-hours').value=1;
+  document.getElementById('log-notes').value='';
+  renderOverview();
+}
+
+function renderOverview(){
+  document.getElementById('ov-total-hrs').textContent=Math.round(totalHrs()*10)/10;
+  document.getElementById('ov-week-hrs').textContent=Math.round(weekHrs()*10)/10;
+  document.getElementById('ov-logs').textContent=state.logs.length;
+  document.getElementById('ov-months').textContent=Math.max(...['fitness','personal','service'].map(a=>(state.months[a]||[]).length),0);
+  const today=new Date().getDay();
+  document.getElementById('week-row').innerHTML=DAYS.map((d,i)=>{
+    const c=Date.now()-7*24*60*60*1000;
+    const has=state.logs.some(l=>{const ld=new Date(l.ts);return ld.getDay()===i&&l.ts>=c;});
+    const isToday=i===today;
+    return `<div class="day-item"><div class="day-name">${d}</div><div class="day-circle${has?' done':isToday?' today':''}">${has?'✓':isToday?'•':''}</div></div>`;
+  }).join('');
+  const wg=state.weeklyGoal||15;
+  const wh=Math.round(weekHrs()*10)/10;
+  document.getElementById('wg-label').textContent=wh+' / '+wg+' hrs';
+  document.getElementById('wg-fill').style.width=Math.min((wh/wg)*100,100)+'%';
+  document.getElementById('area-grid').innerHTML=['fitness','personal','service'].map(area=>{
+    const hrs=hrsByArea(null,area);
+    const info=AREA_INFO[area];
+    const req=REQ[area];
+    const pct=Math.min((hrs/req.medal)*100,100);
+    return `<div class="area-card"><div class="pct-badge">${Math.floor(pct)}%</div><div class="area-emoji">${info.emoji}</div><div class="area-name">${info.name}</div><div class="area-req">Silver Medal: ${req.medal}h · ${req.medalMonths}mo</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-text">${Math.round(hrs*10)/10} / ${req.medal} hrs</div></div>`;
+  }).join('');
+  const recent=state.logs.slice(0,5);
+  document.getElementById('recent-logs').innerHTML=recent.length?recent.map((l,i)=>logHTML(l,i,false)).join(''):'<p style="font-size:12px;color:#aaa;text-align:center;padding:10px;">No activity yet!</p>';
+}
+
+function logHTML(l,i,showDel){
+  return `<div class="log-item"><div><span class="li-area-chip ${AREA_INFO[l.area]?.chip||''}">${AREA_INFO[l.area]?.emoji} ${AREA_INFO[l.area]?.name}</span><div class="li-act">${l.activity}${l.notes?` — <span style="color:#888;font-size:11px;">${l.notes.slice(0,40)}</span>`:''}</div><div class="li-date">${l.date}</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="li-hrs">${l.hours}h</span>${showDel?`<button class="btn-danger" onclick="deleteLog(${i})">✕</button>`:''}</div></div>`;
+}
+
+function renderHistory(){
+  const filter=document.getElementById('filter-area').value;
+  const logs=filter==='all'?state.logs:state.logs.filter(l=>l.area===filter);
+  document.getElementById('history-list').innerHTML=logs.length?logs.map((l,i)=>logHTML(l,state.logs.indexOf(l),true)).join(''):'<p style="font-size:12px;color:#aaa;text-align:center;padding:20px;">No logs for this area yet.</p>';
+}
+
+function deleteLog(i){state.logs.splice(i,1);saveState();renderHistory();renderOverview();showToast('Log removed');}
+function clearAllLogs(){if(!confirm('Clear all logs? This cannot be undone.'))return;state.logs=[];saveState();renderHistory();renderOverview();showToast('All logs cleared');}
+
+// ---- MONTHLY TRACKER ----
+function getMonthKey(year,month){return year+'-'+String(month).padStart(2,'0');}
+
+function getMonthData(year,month){
+  const key=getMonthKey(year,month);
+  if(!state.monthly) state.monthly={};
+  if(!state.monthly[key]) state.monthly[key]={weeks:[{f:0,p:0,s:0,e:0,notes:''},{f:0,p:0,s:0,e:0,notes:''},{f:0,p:0,s:0,e:0,notes:''},{f:0,p:0,s:0,e:0,notes:''}]};
+  // ensure 4 weeks always exist
+  while(state.monthly[key].weeks.length<4) state.monthly[key].weeks.push({f:0,p:0,s:0,e:0,notes:''});
+  return state.monthly[key];
+}
+
+function renderMonthlyTracker(){
+  const year=state.currentYear||new Date().getFullYear();
+  document.getElementById('year-label').textContent=year;
+
+  // build month tabs
+  const tabsEl=document.getElementById('month-tabs');
+  const currentMonth=new Date().getMonth();
+  const currentYear=new Date().getFullYear();
+  tabsEl.innerHTML=MONTH_SHORT.map((m,i)=>`<button class="month-tab${(year===currentYear&&i===currentMonth)?' active':''}" onclick="selectMonth(${i})" id="mtab-${i}">${m}</button>`).join('');
+
+  // build month views
+  const viewsEl=document.getElementById('month-views');
+  viewsEl.innerHTML=MONTH_NAMES.map((m,mi)=>{
+    const data=getMonthData(year,mi);
+    return `<div class="month-view${(year===currentYear&&mi===currentMonth)?' active':''}" id="mview-${mi}">
+      ${renderMonthView(year,mi,m,data)}
+    </div>`;
+  }).join('');
+}
+
+function renderMonthView(year,mi,monthName,data){
+  // calc totals
+  const totF=data.weeks.reduce((t,w)=>t+(parseFloat(w.f)||0),0);
+  const totP=data.weeks.reduce((t,w)=>t+(parseFloat(w.p)||0),0);
+  const totS=data.weeks.reduce((t,w)=>t+(parseFloat(w.s)||0),0);
+  const totE=data.weeks.reduce((t,w)=>t+(parseFloat(w.e)||0),0);
+  const totAll=totF+totP+totS+totE;
+
+  const weeksHTML=data.weeks.map((w,wi)=>{
+    const wTot=(parseFloat(w.f)||0)+(parseFloat(w.p)||0)+(parseFloat(w.s)||0)+(parseFloat(w.e)||0);
+    return `<div class="week-block">
+      <div class="week-block-header">
+        <span class="week-label">Week ${wi+1}</span>
+        <span class="week-total-badge">${Math.round(wTot*10)/10} hrs total</span>
+      </div>
+      <div class="week-area-row">
+        <div class="week-area-input">
+          <span class="week-area-label" style="color:var(--blue-6);">🏃 Fitness</span>
+          <input type="number" min="0" max="56" step="0.5" value="${w.f||''}" placeholder="0" onchange="updateWeekData(${mi},${wi},'f',this.value)">
+        </div>
+        <div class="week-area-input">
+          <span class="week-area-label" style="color:var(--purple-6);">📚 Personal</span>
+          <input type="number" min="0" max="56" step="0.5" value="${w.p||''}" placeholder="0" onchange="updateWeekData(${mi},${wi},'p',this.value)">
+        </div>
+        <div class="week-area-input">
+          <span class="week-area-label" style="color:var(--teal-6);">🤝 Service</span>
+          <input type="number" min="0" max="56" step="0.5" value="${w.s||''}" placeholder="0" onchange="updateWeekData(${mi},${wi},'s',this.value)">
+        </div>
+        <div class="week-area-input">
+          <span class="week-area-label" style="color:var(--coral-4);">🧭 Expedition</span>
+          <input type="number" min="0" max="56" step="0.5" value="${w.e||''}" placeholder="0" onchange="updateWeekData(${mi},${wi},'e',this.value)">
+        </div>
+      </div>
+      <div class="week-notes-row">
+        <textarea placeholder="Notes for week ${wi+1}..." onchange="updateWeekData(${mi},${wi},'notes',this.value)">${w.notes||''}</textarea>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="month-summary-grid">
+    <div class="month-summary-box msb-fitness"><div class="msb-num">${Math.round(totF*10)/10}</div><div class="msb-label">🏃 Fitness hrs</div></div>
+    <div class="month-summary-box msb-personal"><div class="msb-num">${Math.round(totP*10)/10}</div><div class="msb-label">📚 Personal hrs</div></div>
+    <div class="month-summary-box msb-service"><div class="msb-num">${Math.round(totS*10)/10}</div><div class="msb-label">🤝 Service hrs</div></div>
+    <div class="month-summary-box msb-total"><div class="msb-num">${Math.round(totAll*10)/10}</div><div class="msb-label">Total hrs</div></div>
+  </div>
+  ${weeksHTML}`;
+}
+
+function selectMonth(mi){
+  document.querySelectorAll('.month-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.month-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('mtab-'+mi).classList.add('active');
+  document.getElementById('mview-'+mi).classList.add('active');
+}
+
+function updateWeekData(monthIdx,weekIdx,field,value){
+  const year=state.currentYear||new Date().getFullYear();
+  const data=getMonthData(year,monthIdx);
+  data.weeks[weekIdx][field]=(field==='notes')?value:(parseFloat(value)||0);
+  saveState();
+  // refresh summary only
+  const view=document.getElementById('mview-'+monthIdx);
+  if(view) view.innerHTML=renderMonthView(year,monthIdx,MONTH_NAMES[monthIdx],data);
+}
+
+function changeYear(dir){
+  state.currentYear=(state.currentYear||new Date().getFullYear())+dir;
+  saveState();
+  renderMonthlyTracker();
+}
+
+// ---- GOALS ----
+function renderGoals(){
+  const g=state.goals||{};
+  document.getElementById('g-fitness').value=g.fitness||'';
+  document.getElementById('g-pd1').value=g.pd1||'';
+  document.getElementById('g-pd2').value=g.pd2||'';
+  document.getElementById('g-service').value=g.service||'';
+  document.getElementById('g-expedition').value=g.expedition||'';
+  document.getElementById('weekly-goal-inp').value=state.weeklyGoal||15;
+  const wg=state.weeklyGoal||15,wh=Math.round(weekHrs()*10)/10;
+  document.getElementById('wg-current-text').textContent=wh+' / '+wg+' hrs';
+  renderMonthDots();
+}
+
+function saveGoals(){
+  state.goals={
+    fitness:document.getElementById('g-fitness').value,
+    pd1:document.getElementById('g-pd1').value,
+    pd2:document.getElementById('g-pd2').value,
+    service:document.getElementById('g-service').value,
+    expedition:document.getElementById('g-expedition').value
+  };
+  saveState();
+  showToast('🎯 Goals saved!');
+}
+
+function saveWeeklyGoal(){
+  state.weeklyGoal=parseInt(document.getElementById('weekly-goal-inp').value)||15;
+  saveState();
+  const wg=state.weeklyGoal,wh=Math.round(weekHrs()*10)/10;
+  document.getElementById('wg-current-text').textContent=wh+' / '+wg+' hrs';
+}
+
+function renderMonthDots(){
+  ['fitness','personal','service'].forEach(area=>{
+    const el=document.getElementById('months-'+area);
+    if(!el)return;
+    el.innerHTML=MONTH_SHORT.map((m,i)=>{
+      const active=(state.months[area]||[]).includes(i);
+      return `<div class="month-dot${active?' active':''}" onclick="toggleMonth('${area}',${i})">${m}</div>`;
+    }).join('');
+  });
+}
+
+function toggleMonth(area,idx){
+  if(!state.months[area])state.months[area]=[];
+  const pos=state.months[area].indexOf(idx);
+  if(pos>=0)state.months[area].splice(pos,1);
+  else state.months[area].push(idx);
+  saveState();
+  renderMonthDots();
+  renderOverview();
+}
+
+function renderAchievements(){
+  document.getElementById('ach-list').innerHTML=ALL_ACHIEVEMENTS.map(a=>{
+    const unlocked=a.condition(state);
+    return `<div class="ach-item${unlocked?'':' ach-locked'}"><div class="ach-trophy">${a.title.slice(-2)}</div><div><div class="ach-title">${a.title}</div><div class="ach-desc">${unlocked?a.desc:'🔒 Keep going to unlock!'}</div></div></div>`;
+  }).join('');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// Init
+loadState();
+updateActivities();
+renderOverview();
+document.getElementById('log-date').value=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
+</script>
+</body>
+</html>
